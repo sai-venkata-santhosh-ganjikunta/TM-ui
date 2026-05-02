@@ -15,9 +15,17 @@ export default function Register() {
       const res = await api.post('/auth/register', form);
       login(res.data);
       navigate('/dashboard');
-    } catch {
-      setError('Registration failed. Email may already exist.');
-    }
+    } catch (err) {
+  console.log("ERROR:", err);
+
+  const message =
+    err.response?.data?.message ||
+    err.response?.data ||
+    err.message ||
+    "Registration failed";
+
+  setError(message);
+}
   };
 
   return (
