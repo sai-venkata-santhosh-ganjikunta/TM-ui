@@ -1,13 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: 'https://tm-api-production.up.railway.app/api',
+const API = axios.create({
+  baseURL: "https://tm-api-production.up.railway.app/api",
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+
+  if (token && !req.url.includes("/auth")) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return req;
 });
 
-export default api;
+export default API;
